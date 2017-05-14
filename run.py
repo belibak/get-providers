@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import config
 import subprocess
 import os
