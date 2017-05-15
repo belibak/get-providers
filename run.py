@@ -16,9 +16,13 @@ def dirExists(path):
 		return False
 
 for provider in config.providers_list:
-	age = os.path.getmtime(config.src_dir + provider)
+	mtime = os.path.getmtime(config.src_dir + provider)
+	age = curtime - mtime
 	ddir = config.dest_dir + provider
-	if curtime - age < 86400:
+	print(age)
+	if age < 86400*4:
+		print('ddir age - ', curtime - os.path.getctime(ddir))
 		if dirExists(ddir) == True:
-			shutil.rmtree(ddir)
-		shutil.copytree(config.src_dir + provider, ddir)
+			if curtime - os.path.getctime(ddir) > 86400:
+				shutil.rmtree(ddir)
+				shutil.copytree(config.src_dir + provider, ddir)
